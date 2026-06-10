@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hira | Web Developer Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --purple: #7F77DD;
+      --purple-light: #EEEDFE;
+      --purple-dark: #3C3489;
+      --teal: #1D9E75;
+      --teal-light: #E1F5EE;
+      --pink: #D4537E;
+      --pink-light: #FBEAF0;
+      --amber: #EF9F27;
+      --amber-light: #FAEEDA;
+      --text: #1a1a2e;
+      --text-muted: #6b7280;
+      --bg: #fafaf8;
+      --white: #ffffff;
+      --border: rgba(0,0,0,0.08);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(250,250,248,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 20px;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a {
+      text-decoration: none; color: var(--text-muted);
+      font-size: 14px; font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--purple); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(127,119,221,0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(29,158,117,0.12) 0%, transparent 50%),
+        radial-gradient(circle at 60% 20%, rgba(212,83,126,0.10) 0%, transparent 40%);
+    }
+    .blob {
+      position: absolute; border-radius: 50%;
+      filter: blur(60px); opacity: 0.3; z-index: 0;
+      animation: float 6s ease-in-out infinite;
+    }
+    .blob-1 { width: 300px; height: 300px; background: var(--purple); top: 10%; left: 5%; animation-delay: 0s; }
+    .blob-2 { width: 200px; height: 200px; background: var(--teal); bottom: 15%; right: 8%; animation-delay: 2s; }
+    .blob-3 { width: 150px; height: 150px; background: var(--pink); top: 60%; left: 15%; animation-delay: 4s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .hero-content { position: relative; z-index: 1; max-width: 700px; }
+
+    .avatar {
+      width: 120px; height: 120px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--purple), var(--pink), var(--teal));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-size: 44px; font-weight: 800; color: white;
+      margin: 0 auto 1.5rem;
+      box-shadow: 0 20px 60px rgba(127,119,221,0.35);
+      animation: pulse-avatar 3s ease-in-out infinite;
+    }
+    @keyframes pulse-avatar {
+      0%, 100% { box-shadow: 0 20px 60px rgba(127,119,221,0.35); }
+      50% { box-shadow: 0 25px 80px rgba(127,119,221,0.55); }
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(40px, 8vw, 72px);
+      font-weight: 800;
+      line-height: 1.05;
+      margin-bottom: 0.5rem;
+    }
+    .hero h1 .name-gradient {
+      background: linear-gradient(135deg, var(--purple-dark), var(--purple), var(--pink));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 18px; color: var(--text-muted);
+      font-weight: 400; margin-bottom: 1.5rem;
+      letter-spacing: 0.02em;
+    }
+
+    .hero-tags { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 2.5rem; }
+    .tag {
+      padding: 6px 18px; border-radius: 50px;
+      font-size: 13px; font-weight: 500;
+      border: 1.5px solid transparent;
+    }
+    .tag-purple { background: var(--purple-light); color: var(--purple-dark); border-color: rgba(127,119,221,0.3); }
+    .tag-teal   { background: var(--teal-light);   color: #085041;            border-color: rgba(29,158,117,0.3); }
+    .tag-pink   { background: var(--pink-light);   color: #72243E;            border-color: rgba(212,83,126,0.3); }
+
+    .cta-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      color: white; text-decoration: none;
+      padding: 14px 32px; border-radius: 50px;
+      font-size: 15px; font-weight: 500;
+      box-shadow: 0 8px 30px rgba(127,119,221,0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(127,119,221,0.55);
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      max-width: 900px; margin: 0 auto;
+      padding: 5rem 2rem;
+    }
+
+    .section-label {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--purple);
+      margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 700; margin-bottom: 3rem;
+      line-height: 1.1;
+    }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+      align-items: center;
+    }
+    .about-text p {
+      font-size: 16px; line-height: 1.8;
+      color: var(--text-muted); margin-bottom: 1rem;
+    }
+    .about-stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+    }
+    .stat-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.25rem;
+      text-align: center;
+    }
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 32px; font-weight: 800;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .stat-label { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;
+    }
+    .skill-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative; overflow: hidden;
+    }
+    .skill-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+    }
+    .skill-card.s-purple::before { background: linear-gradient(90deg, var(--purple), var(--purple-light)); }
+    .skill-card.s-teal::before   { background: linear-gradient(90deg, var(--teal), var(--teal-light)); }
+    .skill-card.s-pink::before   { background: linear-gradient(90deg, var(--pink), var(--pink-light)); }
+    .skill-card.s-amber::before  { background: linear-gradient(90deg, var(--amber), var(--amber-light)); }
+
+    .skill-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.08);
+    }
+    .skill-icon { font-size: 28px; margin-bottom: 10px; }
+    .skill-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 16px; font-weight: 700; margin-bottom: 6px;
+    }
+    .skill-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+    .skill-bar-bg {
+      background: #f0f0f0; border-radius: 4px;
+      height: 4px; margin-top: 12px; overflow: hidden;
+    }
+    .skill-bar {
+      height: 100%; border-radius: 4px;
+      animation: grow 1.5s ease-out forwards;
+    }
+    .skill-card.s-purple .skill-bar { background: var(--purple); }
+    .skill-card.s-teal   .skill-bar { background: var(--teal); }
+    .skill-card.s-pink   .skill-bar { background: var(--pink); }
+    .skill-card.s-amber  .skill-bar { background: var(--amber); }
+    @keyframes grow { from { width: 0; } }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem;
+    }
+    .project-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .project-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+    }
+    .project-thumb {
+      height: 140px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 48px;
+    }
+    .project-thumb.pt-1 { background: linear-gradient(135deg, var(--purple-light), #CECBF6); }
+    .project-thumb.pt-2 { background: linear-gradient(135deg, var(--teal-light), #9FE1CB); }
+    .project-thumb.pt-3 { background: linear-gradient(135deg, var(--pink-light), #F4C0D1); }
+    .project-body { padding: 1.25rem; }
+    .project-tag {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--purple);
+      margin-bottom: 6px;
+    }
+    .project-body h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 18px; font-weight: 700; margin-bottom: 6px;
+    }
+    .project-body p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+    /* ── CONTACT ── */
+    .contact-box {
+      background: linear-gradient(135deg, var(--purple-dark), #534AB7, var(--pink));
+      border-radius: 24px;
+      padding: 3rem;
+      text-align: center;
+      color: white;
+    }
+    .contact-box h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 36px; font-weight: 800; margin-bottom: 0.75rem;
+    }
+    .contact-box p { font-size: 16px; opacity: 0.85; margin-bottom: 2rem; }
+    .contact-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .contact-link {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      color: white; text-decoration: none;
+      padding: 10px 22px; border-radius: 50px;
+      font-size: 14px; font-weight: 500;
+      backdrop-filter: blur(8px);
+      transition: background 0.2s;
+    }
+    .contact-link:hover { background: rgba(255,255,255,0.25); }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 13px; color: var(--text-muted);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .contact-box { padding: 2rem 1.25rem; }
+    }
+
+    /* ── FADE IN ── */
+    .fade-in {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">Hira.</div>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="hero-content">
+      <div class="avatar">H</div>
+      <h1><span class="name-gradient">Hira</span></h1>
+      <p class="hero-subtitle">Front-End Developer &amp; Web Design Learner 🌸</p>
+      <div class="hero-tags">
+        <span class="tag tag-purple">HTML5</span>
+        <span class="tag tag-teal">CSS3</span>
+        <span class="tag tag-pink">JavaScript</span>
+      </div>
+      <a href="#contact" class="cta-btn">Say Hello ✨</a>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about" class="fade-in">
+    <div class="section-label">Who I am</div>
+    <div class="section-title">About Me</div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>Hi! I'm Hira, a passionate web developer from Lahore, Pakistan 🇵🇰. I love creating beautiful, colorful websites that bring ideas to life.</p>
+        <p>Currently on my journey to master front-end development — one project at a time. I believe great design should be both functional and fun!</p>
+      </div>
+      <div class="about-stats">
+        <div class="stat-card">
+          <div class="stat-num">3+</div>
+          <div class="stat-label">Projects Built</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">2</div>
+          <div class="stat-label">Skills Learned</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">∞</div>
+          <div class="stat-label">Curiosity</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Passion</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="fade-in">
+    <div class="section-label">What I know</div>
+    <div class="section-title">My Skills</div>
+    <div class="skills-grid">
+      <div class="skill-card s-purple">
+        <div class="skill-icon">🌐</div>
+        <div class="skill-name">HTML5</div>
+        <div class="skill-desc">Semantic markup, forms, and page structure</div>
+        <div class="skill-bar-bg"><div class="skill-bar" style="width: 75%"></div></div>
+      </div>
+      <div class="skill-card s-teal">
+        <div class="skill-icon">🎨</div>
+        <div class="skill-name">CSS3</div>
+        <div class="skill-desc">Flexbox, animations, and responsive design</div>
+        <div class="skill-bar-bg"><div class="skill-bar" style="width: 65%"></div></div>
+      </div>
+      <div class="skill-card s-pink">
+        <div class="skill-icon">⚡</div>
+        <div class="skill-name">JavaScript</div>
+        <div class="skill-desc">Currently learning — basics and DOM</div>
+        <div class="skill-bar-bg"><div class="skill-bar" style="width: 25%"></div></div>
+      </div>
+      <div class="skill-card s-amber">
+        <div class="skill-icon">🛠️</div>
+        <div class="skill-name">VS Code</div>
+        <div class="skill-desc">Code editor with Live Server extension</div>
+        <div class="skill-bar-bg"><div class="skill-bar" style="width: 80%"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="fade-in">
+    <div class="section-label">What I've built</div>
+    <div class="section-title">My Projects</div>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-thumb pt-1">💼</div>
+        <div class="project-body">
+          <div class="project-tag">HTML &amp; CSS</div>
+          <h3>Portfolio Website</h3>
+          <p>My personal portfolio page — built with pure HTML and CSS to showcase my work.</p>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-thumb pt-2">🍝</div>
+        <div class="project-body">
+          <div class="project-tag">HTML &amp; CSS</div>
+          <h3>Recipe Page</h3>
+          <p>A beautifully styled recipe page with ingredients, steps, and a clean layout.</p>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-thumb pt-3">🔐</div>
+        <div class="project-body">
+          <div class="project-tag">HTML &amp; CSS</div>
+          <h3>Login Form</h3>
+          <p>A stylish login form with CSS hover effects and modern design.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="fade-in">
+    <div class="contact-box">
+      <h2>Let's Connect! 🌸</h2>
+      <p>I'm always open to new opportunities and collaborations.</p>
+      <div class="contact-links">
+        <a href="mailto:hira@email.com" class="contact-link">📧 hira@email.com</a>
+        <a href="https://github.com" class="contact-link">💻 GitHub</a>
+        <a href="#" class="contact-link">📍 Lahore, Pakistan</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Made with 💜 by Hira &nbsp;|&nbsp; 2025</p>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
