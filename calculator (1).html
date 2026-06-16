@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hira's Calculator App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .phone-frame {
+            background: #000;
+            border-radius: 40px;
+            padding: 15px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .calculator {
+            background: #1a1a2e;
+            border-radius: 30px;
+            padding: 25px;
+            overflow: hidden;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            color: #e94560;
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+        }
+
+        .display {
+            background: #16213e;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: right;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .previous-operand {
+            color: #a0a0a0;
+            font-size: 1.2rem;
+            min-height: 30px;
+            word-break: break-all;
+        }
+
+        .current-operand {
+            color: #fff;
+            font-size: 2.5rem;
+            font-weight: bold;
+            word-break: break-all;
+            min-height: 50px;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        button {
+            border: none;
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: bold;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            filter: brightness(1.2);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        .btn-number {
+            background: #0f3460;
+            color: #fff;
+        }
+
+        .btn-operator {
+            background: #e94560;
+            color: #fff;
+        }
+
+        .btn-function {
+            background: #533483;
+            color: #fff;
+        }
+
+        .btn-equals {
+            background: #00b894;
+            color: #fff;
+            grid-column: span 2;
+            border-radius: 35px;
+            width: 100%;
+        }
+
+        .btn-zero {
+            grid-column: span 2;
+            border-radius: 35px;
+            width: 100%;
+        }
+
+        .history {
+            margin-top: 20px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .history-title {
+            color: #e94560;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .history-item {
+            background: #16213e;
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            color: #a0a0a0;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .history-result {
+            color: #00b894;
+            font-weight: bold;
+        }
+
+        .clear-history {
+            background: #e94560;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+            transition: all 0.2s;
+        }
+
+        .clear-history:hover {
+            background: #ff6b6b;
+        }
+
+        /* Scrollbar styling */
+        .history::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .history::-webkit-scrollbar-track {
+            background: #1a1a2e;
+        }
+
+        .history::-webkit-scrollbar-thumb {
+            background: #e94560;
+            border-radius: 10px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 15px;
+            color: #666;
+            font-size: 0.75rem;
+        }
+
+        .footer a {
+            color: #e94560;
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .phone-frame {
+                padding: 10px;
+            }
+
+            button {
+                width: 60px;
+                height: 60px;
+                font-size: 1.3rem;
+            }
+
+            .current-operand {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-frame">
+        <div class="calculator">
+            <div class="header">
+                <h1>🧮 CALCULATOR</h1>
+            </div>
+
+            <div class="display">
+                <div class="previous-operand" id="previousOperand"></div>
+                <div class="current-operand" id="currentOperand">0</div>
+            </div>
+
+            <div class="buttons">
+                <button class="btn-function" onclick="clearAll()">AC</button>
+                <button class="btn-function" onclick="deleteLast()">DEL</button>
+                <button class="btn-function" onclick="appendOperator('%')">%</button>
+                <button class="btn-operator" onclick="appendOperator('÷')">÷</button>
+
+                <button class="btn-number" onclick="appendNumber('7')">7</button>
+                <button class="btn-number" onclick="appendNumber('8')">8</button>
+                <button class="btn-number" onclick="appendNumber('9')">9</button>
+                <button class="btn-operator" onclick="appendOperator('×')">×</button>
+
+                <button class="btn-number" onclick="appendNumber('4')">4</button>
+                <button class="btn-number" onclick="appendNumber('5')">5</button>
+                <button class="btn-number" onclick="appendNumber('6')">6</button>
+                <button class="btn-operator" onclick="appendOperator('-')">-</button>
+
+                <button class="btn-number" onclick="appendNumber('1')">1</button>
+                <button class="btn-number" onclick="appendNumber('2')">2</button>
+                <button class="btn-number" onclick="appendNumber('3')">3</button>
+                <button class="btn-operator" onclick="appendOperator('+')">+</button>
+
+                <button class="btn-number btn-zero" onclick="appendNumber('0')">0</button>
+                <button class="btn-number" onclick="appendNumber('.')">.</button>
+                <button class="btn-equals" onclick="calculate()">=</button>
+            </div>
+
+            <div class="history" id="history">
+                <div class="history-title">📋 Calculation History</div>
+                <div id="historyList"></div>
+            </div>
+
+            <button class="clear-history" onclick="clearHistory()">Clear History</button>
+
+            <div class="footer">
+                <p>Built with ❤️ by <a href="https://hirarathore92006-cmyk.github.io/my--first-project/">Hira Rathore</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentOperand = '0';
+        let previousOperand = '';
+        let operation = undefined;
+        let history = JSON.parse(localStorage.getItem('calcHistory')) || [];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateDisplay();
+            renderHistory();
+
+            // Keyboard support
+            document.addEventListener('keydown', handleKeyboard);
+        });
+
+        function updateDisplay() {
+            document.getElementById('currentOperand').textContent = currentOperand;
+            document.getElementById('previousOperand').textContent = previousOperand;
+        }
+
+        function appendNumber(number) {
+            if (number === '.' && currentOperand.includes('.')) return;
+            if (currentOperand === '0' && number !== '.') {
+                currentOperand = number;
+            } else {
+                currentOperand += number;
+            }
+            updateDisplay();
+        }
+
+        function appendOperator(op) {
+            if (currentOperand === '') return;
+            if (previousOperand !== '') {
+                calculate();
+            }
+            operation = op;
+            previousOperand = currentOperand + ' ' + op;
+            currentOperand = '';
+            updateDisplay();
+        }
+
+        function calculate() {
+            let computation;
+            const prev = parseFloat(previousOperand);
+            const current = parseFloat(currentOperand);
+
+            if (isNaN(prev) || isNaN(current)) return;
+
+            switch (operation) {
+                case '+':
+                    computation = prev + current;
+                    break;
+                case '-':
+                    computation = prev - current;
+                    break;
+                case '×':
+                    computation = prev * current;
+                    break;
+                case '÷':
+                    if (current === 0) {
+                        alert("Cannot divide by zero!");
+                        return;
+                    }
+                    computation = prev / current;
+                    break;
+                case '%':
+                    computation = prev % current;
+                    break;
+                default:
+                    return;
+            }
+
+            // Add to history
+            const historyItem = {
+                expression: `${prev} ${operation} ${current}`,
+                result: computation
+            };
+            history.unshift(historyItem);
+            if (history.length > 10) history.pop();
+            localStorage.setItem('calcHistory', JSON.stringify(history));
+
+            currentOperand = computation.toString();
+            operation = undefined;
+            previousOperand = '';
+            updateDisplay();
+            renderHistory();
+        }
+
+        function clearAll() {
+            currentOperand = '0';
+            previousOperand = '';
+            operation = undefined;
+            updateDisplay();
+        }
+
+        function deleteLast() {
+            if (currentOperand.length === 1) {
+                currentOperand = '0';
+            } else {
+                currentOperand = currentOperand.slice(0, -1);
+            }
+            updateDisplay();
+        }
+
+        function renderHistory() {
+            const historyList = document.getElementById('historyList');
+            if (history.length === 0) {
+                historyList.innerHTML = '<div style="text-align: center; color: #666; padding: 10px;">No calculations yet</div>';
+                return;
+            }
+
+            historyList.innerHTML = history.map(item => `
+                <div class="history-item">
+                    <span>${item.expression} = </span>
+                    <span class="history-result">${item.result}</span>
+                </div>
+            `).join('');
+        }
+
+        function clearHistory() {
+            history = [];
+            localStorage.removeItem('calcHistory');
+            renderHistory();
+        }
+
+        function handleKeyboard(e) {
+            if (e.key >= '0' && e.key <= '9') appendNumber(e.key);
+            if (e.key === '.') appendNumber('.');
+            if (e.key === '+') appendOperator('+');
+            if (e.key === '-') appendOperator('-');
+            if (e.key === '*') appendOperator('×');
+            if (e.key === '/') appendOperator('÷');
+            if (e.key === '%') appendOperator('%');
+            if (e.key === 'Enter' || e.key === '=') calculate();
+            if (e.key === 'Escape') clearAll();
+            if (e.key === 'Backspace') deleteLast();
+        }
+    </script>
+</body>
+</html>
